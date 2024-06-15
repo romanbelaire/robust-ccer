@@ -1219,19 +1219,8 @@ class Trainer():
         #take steps for advantage network, i.e. min_q or ccer (and not the policy net)
         if (self.MODE == 'robust_q_ppo' or self.MODE == 'radial_ppor' or self.MODE == 'adv_acoe_ppo') and not adversary_step:
             q_loss = ch.tensor(0.0)
-            min_q_loss = worst_q_step(saps.states, saps.actions, saps.next_states, saps.not_dones, saps.rewards, min_q_model, target_min_q_model, policy_model, min_q_opt, self.params, self.robust_eps_scheduler, should_cuda=not self.params.cpu)
-            if self.SOFT_CCER:
-                #q_model = ccer model
-                q_loss = soft_ccer_step(saps.states, saps.actions, saps.next_states, saps.not_dones, saps.rewards, q_model, target_q_model, policy_model, min_q_model, q_opt, self.params, self.robust_eps_scheduler, num_actions=self.NUM_ACTIONS, should_cuda=not self.params.cpu)
-            elif self.SOFT_Q_U_REGRET:
-                q_loss = soft_regret_q_u_step(saps.states, saps.actions, saps.next_states, saps.not_dones, saps.rewards, q_model, target_q_model, policy_model, min_q_model, val_model, q_opt, self.params, self.robust_eps_scheduler, num_actions=self.NUM_ACTIONS, should_cuda=not self.params.cpu)
-            elif self.CCER_WPPO:#Wocar regularization + CCER
-                q_loss = ccer_q_step(saps.states, saps.actions, saps.next_states, saps.not_dones, saps.rewards, q_model, target_q_model, policy_model, min_q_model, q_opt, self.params, self.robust_eps_scheduler, should_cuda=not self.params.cpu) #for some reason, this works really well when min_q_model is q_model (the ccer network), which should be theoretically incorrect
-                
-            elif self.SOARL:#Semi-offline ARL
-                q_loss = soarl_q_step(saps.states, saps.actions, saps.next_states, saps.not_dones, saps.rewards, q_model, target_q_model, policy_model, min_q_model, q_opt, self.params, self.robust_eps_scheduler, self.soarl_prior, num_actions=self.NUM_ACTIONS, should_cuda=not self.params.cpu)
-                
-            elif self.CCER:
+            min_q_loss = worst_q_step(saps.states, saps.actions, saps.next_states, saps.not_dones, saps.rewards, min_q_model, target_min_q_model, policy_model, min_q_opt, self.params, self.robust_eps_scheduler, should_cuda=not self.params.cpu)               
+            if self.CCER:
                 q_loss = ccer_q_step(saps.states, saps.actions, saps.next_states, saps.not_dones, saps.rewards, q_model, target_q_model, policy_model, min_q_model, q_opt, self.params, self.robust_eps_scheduler, should_cuda=not self.params.cpu)
 
             else: #Just wocar
