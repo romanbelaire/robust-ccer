@@ -24,7 +24,7 @@ git clone https://github.com/KaidiXu/auto_LiRPA
 cd auto_LiRPA
 python setup.py install
 
-# enter the trainer document for ATLA
+# enter the trainer document
 cd ../ccer
 ```
 
