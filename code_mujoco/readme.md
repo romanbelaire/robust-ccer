@@ -1,4 +1,4 @@
-# Who Is the Strongest Enemy? Towards Optimal and Efficient Evasion Attacks in Deep RL 
+# Regret Based Defense for Adversarially Robust Reinforcement Learning
 
 
 
